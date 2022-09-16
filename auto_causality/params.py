@@ -72,6 +72,7 @@ class SimpleParamService:
                 return self.estimator_names_from_patterns(
                     problem,
                     [
+                        "SimpleIV",
                         "DMLIV",
                         "LinearDRIV",
                         "OrthoIV",
@@ -463,6 +464,7 @@ class SimpleParamService:
                     "lambda_reg": 0.01,
                 },
             ),
+            "iv.auto_causality.models.SimpleIV": EstimatorConfig(),
             "iv.econml.iv.dr.LinearDRIV": EstimatorConfig(
                 init_params={
                     "model_y_xw": outcome_model,
