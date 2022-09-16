@@ -9,8 +9,8 @@ from econml.cate_interpreter import SingleTreeCateInterpreter
 from dowhy.causal_estimator import CausalEstimate
 from dowhy import CausalModel
 
-from auto_causality.thirdparty.causalml import metrics
 from auto_causality.erupt import ERUPT
+from auto_causality.thirdparty.causalml import metrics
 
 import dcor
 
@@ -77,7 +77,7 @@ class Scorer:
             X_names=est._effect_modifier_names + est._observed_common_causes_names,
         )
 
-        self.ate(self.causal_model._data)
+        # self.ate(self.causal_model._data)
 
     def ate(self, df: pd.DataFrame):
         estimate = self.causal_model.estimate_effect(
@@ -268,6 +268,9 @@ class Scorer:
         intrp.feature_names = covariates
         out["intrp"] = intrp
 
+        out["ate"] = cate_estimate.mean()
+        out["ate_std"] = cate_estimate.std()
+
         if problem == "backdoor":
 
             simple_ate = self.ate(df)[0]
@@ -276,10 +279,6 @@ class Scorer:
             values["policy"] = cate_estimate > 0
             values["norm_policy"] = cate_estimate > simple_ate
             values["weights"] = self.erupt.weights(df, lambda x: cate_estimate > 0)
-
-            if "ate" in metrics_to_report:
-                out["ate"] = cate_estimate.mean()
-                out["ate_std"] = cate_estimate.std()
 
             if "erupt" in metrics_to_report:
                 erupt_score = self.erupt.score(df, df[outcome_name], cate_estimate > 0)
