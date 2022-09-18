@@ -260,7 +260,7 @@ class Scorer:
         covariates = est._effect_modifier_names
         cate_estimate = est.effect(df)
 
-        # Include CATE Interpereter for both IV and CATE models
+        # Include CATE Interpreter for both IV and CATE models
         intrp = SingleTreeCateInterpreter(
             include_model_uncertainty=False, max_depth=2, min_samples_leaf=10
         )
