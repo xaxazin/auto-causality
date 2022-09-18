@@ -76,6 +76,7 @@ class SimpleParamService:
                         "DMLIV",
                         "LinearDRIV",
                         "OrthoIV",
+                        "ForestDRIV",
                         "SparseLinearDRIV",
                         "LinearIntentToTreatDRIV",
                     ],
@@ -513,6 +514,34 @@ class SimpleParamService:
                     "projection": 0,
                     "opt_reweighted": 0,
                     "cov_clip": 0.1,
+                },
+            ),
+            "iv.econml.iv.dr.ForestDRIV": EstimatorConfig(
+                init_params={
+                    "model_y_xw": outcome_model,
+                    "model_t_xw": propensity_model,
+                    "n_jobs": self.n_jobs,
+                },
+                search_space={
+                    "projection": tune.choice([0, 1]),
+                    "opt_reweighted": tune.choice([0, 1]),
+                    "cov_clip": tune.quniform(0.08, 0.2, 0.01),
+                    "min_samples_split": tune.randint(2, 20),
+                    "n_estimators": tune.randint(80, 200),
+                    "max_features": tune.choice([
+                        tune.randint(2, 10),
+                        "auto",
+                        "sqrt",
+                        "log2",
+                    ])
+                },
+                defaults={
+                    "projection": 0,
+                    "opt_reweighted": 0,
+                    "cov_clip": 0.1,
+                    "min_samples_split": 2,
+                    "n_estimators": 100,
+                    "max_features": "auto"
                 },
             ),
             "iv.econml.iv.dr.LinearIntentToTreatDRIV": EstimatorConfig(
