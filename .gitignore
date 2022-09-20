@@ -6,6 +6,7 @@ notebooks/scratch/
 .DS_Store
 .vscode
 .env
+.venv
 
 *.pyc
 

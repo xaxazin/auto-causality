@@ -547,21 +547,19 @@ class SimpleParamService:
                     "opt_reweighted": tune.choice([0, 1]),
                     "cov_clip": tune.quniform(0.08, 0.2, 0.01),
                     "min_samples_split": tune.randint(2, 20),
-                    "n_estimators": tune.randint(80, 200),
-                    "max_features": tune.choice([
-                        tune.randint(2, 10),
-                        "auto",
-                        "sqrt",
-                        "log2",
-                    ])
+                    # "max_features": tune.choice([
+                    #     tune.randint(2, 10),
+                    #     "auto",
+                    #     "sqrt",
+                    #     "log2",
+                    # ])
                 },
                 defaults={
                     "projection": 0,
                     "opt_reweighted": 0,
                     "cov_clip": 0.1,
                     "min_samples_split": 2,
-                    "n_estimators": 100,
-                    "max_features": "auto"
+                    # "max_features": "auto"
                 },
             ),
             "iv.econml.iv.dr.LinearIntentToTreatDRIV": EstimatorConfig(
